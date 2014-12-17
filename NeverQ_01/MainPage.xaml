@@ -1,0 +1,177 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="NeverQ_01.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:my="clr-namespace:NeverQ_01"
+    xmlns:local="clr-namespace:NeverQ_01"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignData SampleData/MainViewModelSampleData.xaml}"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="False"
+    local:TiltEffect.IsTiltEnabled="True">
+
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:SlideTransition Mode="SlideRightFadeIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:SlideTransition Mode="SlideLeftFadeIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:SlideTransition Mode="SlideRightFadeOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:SlideTransition Mode="SlideLeftFadeOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
+
+    <!--LayoutRoot 是放置所有頁面的根資料格-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.Resources>
+            <my:RestaurantLists x:Key="restaurantlists"/>
+        </Grid.Resources>
+
+        <!--Panorama 控制項-->
+        <phone:Panorama Title="NeverQ" FontFamily="Trebuchet MS" Foreground="White">
+            <phone:Panorama.Background>
+                <ImageBrush ImageSource="/NeverQ_01;component/Assets/bg.png"/>
+            </phone:Panorama.Background>
+
+            <!--Panorama 項目 1-->
+            <phone:PanoramaItem Header="Restaurant List" Foreground="#FFFFF0C8">
+                <ListBox Name="listBox" ItemsSource="{StaticResource restaurantlists}" Width="420" SelectionChanged="ListBox_SelectionChanged" RenderTransformOrigin="0.5,0.5">
+                    <ListBox.RenderTransform>
+                        <CompositeTransform TranslateX="15" ScaleX="0.9"/>
+                    </ListBox.RenderTransform>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,0,0,0" Height="250" Width="432">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="0*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" MinHeight="130"/>
+                                    <RowDefinition Height="0*"/>
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,0" Grid.ColumnSpan="1" Height="130" VerticalAlignment="Top">
+                                    <Canvas HorizontalAlignment="Left" Height="250" Margin="0,0,0,0" VerticalAlignment="Top" Width="432" >
+                                        <Canvas.Background>
+                                            <ImageBrush Stretch="UniformToFill" ImageSource="{Binding ImageSource}"/>
+                                        </Canvas.Background>
+                                        <Canvas Height="60" Canvas.Top="190" Width="422" Background="Black" Opacity="0.5"/>
+                                        <TextBlock Text="{Binding Name, Mode=OneWay}" FontSize="36" TextWrapping="Wrap" Foreground="#FFFFF0C8" Width="231" Height="67" Canvas.Top="200"/>
+                                        <StackPanel Height="51" Canvas.Left="231" Canvas.Top="195" Width="191" Orientation="Vertical">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Current No.:" Foreground="#FFFFF0C8" FontSize="22"/>
+                                                <TextBlock Text="{Binding CurrentNo}" Foreground="#FFFFF0C8" FontSize="22"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Expect Time:" Foreground="#FFFFF0C8" FontSize="22"/>
+                                                <TextBlock Text="{Binding ExpectTime}" Foreground="#FFFFF0C8" FontSize="22"/>
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                        <!--<TextBlock Text="{Binding Address, Mode=OneWay}" FontSize="22" TextWrapping="Wrap" Margin="0,0,-90,0" HorizontalAlignment="Left" Width="432" Foreground="#FFFFF0C8"/>-->
+                                    </Canvas>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                </ListBox>
+            </phone:PanoramaItem>
+
+            <!--Panorama 項目 2-->
+            <phone:PanoramaItem Header="My Card" Foreground="#FFFFF0C8">
+                <!--<local:ImageButton HorizontalAlignment="Left" Height="380" Margin="40,93,0,0" VerticalAlignment="Top" Width="380" Style="{StaticResource ImageButtonStyle5}" RenderTransformOrigin="0.5,0.5" Click="ImageButton_Click">
+                	<local:ImageButton.RenderTransform>
+                		<CompositeTransform TranslateY="-65"/>
+                	</local:ImageButton.RenderTransform>
+                </local:ImageButton>-->
+
+                <Canvas Height="380" Width="380" Margin="18,0,0,70" VerticalAlignment="Bottom"  Tap="Canvas_Tap" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+                    <Canvas.RenderTransform>
+                        <CompositeTransform TranslateX="3"/>
+                    </Canvas.RenderTransform>
+                    <Canvas.Projection>
+                        <PlaneProjection GlobalOffsetX="16"/>
+                    </Canvas.Projection>
+                    <Canvas.Background>
+                        <ImageBrush Stretch="Fill" ImageSource="/Assets/yellowcard.png"/>
+                    </Canvas.Background>
+                    <TextBlock Height="96" Text="in" Canvas.Left="94" TextWrapping="Wrap" Canvas.Top="274" Width="60" FontSize="40"/>
+                    <TextBlock x:Name="ExpectTime" Height="96" Canvas.Left="154" TextWrapping="Wrap"  Canvas.Top="274" Width="66" FontSize="40" RenderTransformOrigin="0.5,0.5">
+                        <TextBlock.RenderTransform>
+                            <CompositeTransform TranslateX="-3"/>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                    <TextBlock Height="96" Canvas.Left="205" TextWrapping="Wrap" Text="mins" Canvas.Top="274" Width="103" FontSize="40"/>
+                    <TextBlock x:Name="CurrentNo" Height="186" Canvas.Left="135" TextWrapping="Wrap"  Canvas.Top="130" Width="150" FontSize="100"/>
+                    <TextBlock x:Name="StoreName" HorizontalAlignment="Left" Height="64" TextWrapping="Wrap"  VerticalAlignment="Top" Width="149" FontSize="48" Foreground="White" Canvas.Left="113" Canvas.Top="43"/>
+                    <TextBlock x:Name="NoReadyQ" Height="83" Canvas.Left="41" TextWrapping="Wrap" Canvas.Top="159" Width="339" FontSize="40" FontWeight="Bold"/>
+                </Canvas>
+
+            </phone:PanoramaItem>
+
+            <!--Panorama 項目 3-->
+            <phone:PanoramaItem Header="Food Journal" Foreground="#FFFFF0C8">
+                <ListBox Name="listBox1" ItemsSource="{StaticResource restaurantlists}" Width="432" SelectionChanged="ListBox_SelectionChanged" RenderTransformOrigin="0.5,0.5">
+                    <ListBox.RenderTransform>
+                        <CompositeTransform ScaleX="0.9" TranslateX="16"/>
+                    </ListBox.RenderTransform>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,0,0,0" Height="250" Width="432">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="0*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" MinHeight="130"/>
+                                    <RowDefinition Height="0*"/>
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,0" Grid.ColumnSpan="1" Height="130" VerticalAlignment="Top">
+                                    <Canvas HorizontalAlignment="Left" Height="250" Margin="0,0,0,0" VerticalAlignment="Top" Width="432" >
+                                        <Canvas.Background>
+                                            <ImageBrush Stretch="UniformToFill" ImageSource="{Binding ImageSource}"/>
+                                        </Canvas.Background>
+                                        <Canvas Height="60" Canvas.Top="190" Width="422" Background="Black" Opacity="0.5"/>
+                                        <!--<TextBlock Text="{Binding Name, Mode=OneWay}" FontSize="36" TextWrapping="Wrap" Foreground="#FFFFF0C8" Width="231" Height="67" Canvas.Top="200"/>-->
+                                        <StackPanel Height="51" Canvas.Top="195" Width="422" Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Date, Mode=OneWay}" Foreground="#FFFFF0C8" FontSize="28" Width="420" Margin="0,12,0,0"/>
+
+                                        </StackPanel>
+
+                                        <!--<TextBlock Text="{Binding Address, Mode=OneWay}" FontSize="22" TextWrapping="Wrap" Margin="0,0,-90,0" HorizontalAlignment="Left" Width="432" Foreground="#FFFFF0C8"/>-->
+
+                                    </Canvas>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                </ListBox>
+
+            </phone:PanoramaItem>
+        </phone:Panorama>
+    </Grid>
+</phone:PhoneApplicationPage>
